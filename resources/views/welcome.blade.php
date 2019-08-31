@@ -76,12 +76,13 @@
                             <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
+                        <a href="{{ route('customers') }}">Customers</a>
                 </div>
             @endif
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    {{ __('laravel and vue') }}
                 </div>
 
                 <div class="links">

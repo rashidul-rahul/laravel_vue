@@ -9,9 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -33,7 +30,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <a href="{{ route('customers') }}">{{ __('Customers') }}</a>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -75,6 +72,8 @@
         <main class="py-4">
             @yield('content')
         </main>
+        <!-- Scripts -->
     </div>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>
