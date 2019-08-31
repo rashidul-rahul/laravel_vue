@@ -10,43 +10,75 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Phone</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
+                                <tr v-for="(customer, index) in customers" :key="customer.id">
+                                    <th scope="row">{{ index+1 }}</th>
+                                    <td>{{ customer.name }}</td>
+                                    <td>{{ customer.email }}</td>
+                                    <td>{{ customer.phone }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-info btn-sm">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button class="btn btn-success btn-sm">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
+                            <pagination v-if="pagination.last_page > 1"
+                                       :pagination = "pagination"
+                                       :offset="5"
+                                       @paginate="getData()"
+                            >
+                            </pagination>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <vue-progress-bar></vue-progress-bar>
     </div>
 </template>
 
 <script>
     export default {
+        data () {
+          return {
+              customers: [],
+              pagination: {
+                  current_page : 1,
+              },
+          }
+        },
         mounted() {
-            console.log('Component mounted.')
+            console.log('Component mounted.'),
+            this.getData()
+        },
+        methods:{
+            getData(){
+                this.$Progress.start()
+                axios.get('/api/customer?page='+this.pagination.current_page)
+                    .then(response => {
+                        this.customers = response.data.data
+                        this.pagination = response.data.meta
+                        this.$Progress.finish()
+                    })
+                    .catch(e => {
+                        console.log(e)
+                        this.$Progress.fail()
+                    })
+            }
         }
     }
 </script>
